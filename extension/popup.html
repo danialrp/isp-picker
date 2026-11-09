@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>ISP Picker</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header class="now" id="now">
+    <span class="dot"></span>
+    <div>
+      <div class="now-title" id="nowTitle">…</div>
+      <div class="now-sub" id="nowSub"></div>
+    </div>
+  </header>
+
+  <div class="alert" id="alert" hidden></div>
+
+  <button class="row default" id="defaultBtn">
+    <span class="row-main">
+      <span class="row-name" data-i18n="defaultRow"></span>
+      <span class="row-meta" id="defaultMeta"></span>
+    </span>
+    <span class="tag" id="defaultTag" data-i18n="active" hidden></span>
+  </button>
+
+  <div class="section-label" data-i18n="listLabel"></div>
+  <div id="list"></div>
+
+  <details id="settings">
+    <summary data-i18n="settings"></summary>
+    <form id="form">
+      <fieldset>
+        <legend data-i18n="modeLegend"></legend>
+        <label class="radio"><input type="radio" name="mode" value="all"> <span data-i18n="modeAll"></span></label>
+        <label class="radio"><input type="radio" name="mode" value="list"> <span data-i18n="modeList"></span></label>
+      </fieldset>
+      <label><span data-i18n="domainsLabel"></span>
+        <textarea name="domains" rows="3" spellcheck="false"></textarea>
+      </label>
+      <label><span data-i18n="bypassLabel"></span>
+        <textarea name="bypass" rows="3" spellcheck="false"></textarea>
+      </label>
+      <label class="check"><input type="checkbox" name="webrtcGuard"> <span data-i18n="webrtcLabel"></span></label>
+      <div class="grid">
+        <label><span data-i18n="helperHostLabel"></span> <input name="helperHost"></label>
+        <label><span data-i18n="controlPortLabel"></span> <input name="controlPort" type="number" min="1" max="65535"></label>
+        <label><span data-i18n="pollMinutesLabel"></span> <input name="pollMinutes" type="number" min="0.5" step="0.5"></label>
+      </div>
+      <div class="actions">
+        <button type="submit" class="primary" data-i18n="save"></button>
+        <button type="button" id="resetBtn" data-i18n="reset"></button>
+      </div>
+      <p class="hint" id="shortcutHint"></p>
+    </form>
+  </details>
+
+  <template id="rowTpl">
+    <div class="row iface">
+      <div class="row-main">
+        <span class="row-name"></span>
+        <input class="rename" hidden>
+        <span class="row-meta"></span>
+        <span class="row-ip"></span>
+      </div>
+      <div class="row-side">
+        <span class="tag" data-i18n="active" hidden></span>
+        <button class="use primary" data-i18n="use"></button>
+        <div class="tools">
+          <button class="mini check" data-i18n="checkIp" data-i18n-title="checkIpTitle"></button>
+          <button class="mini edit" data-i18n="rename" data-i18n-title="renameTitle"></button>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <script src="popup.js" type="module"></script>
+</body>
+</html>

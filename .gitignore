@@ -1,0 +1,27 @@
+# Local files that are not part of the project
+private/
+
+# Build output
+agent/build/
+dist/
+*.zip
+*.crx
+*.pem
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+
+# Local helper state and config copies
+config.json
+state.json
+
+# OS and editors
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Agent tooling
+.claude/

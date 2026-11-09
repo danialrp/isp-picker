@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.11", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: agent/go.mod
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Helper compiles
+        run: python -m py_compile helper/isp_picker.py
+
+      - name: Agent vets and cross-builds
+        working-directory: agent
+        run: |
+          go vet ./...
+          GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -o /dev/null .
+
+      - name: Extension scripts parse
+        run: for f in extension/*.js; do node --check --input-type=module < "$f"; done
+
+      - name: JSON files are valid
+        run: |
+          python -c "import json; json.load(open('extension/manifest.json')); json.load(open('extension/_locales/en/messages.json')); json.load(open('helper/config.example.json'))"
+
+      - name: Shell scripts parse
+        run: for f in scripts/*.sh; do bash -n "$f"; done
